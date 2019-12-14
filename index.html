@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Secret Santa</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="demo.css"></link>
+	<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+	<script type="text/javascript">
+		var started = false;
+		var stopped_properly = false;
+		var ms = 0;
+		var names_list = ['Karan', 'Chanveer', 'Fabin', 'Saurabh', 'Indu', 'Anju']
+		var names_dict = {}
+		var numbers_dict = {}
+
+		// Utility Functions
+		function fetch_random_name() {
+			var random_index = ''
+			var random_name = ''
+			random_index = Math.floor(Math.random() *names_list.length)
+			random_name = names_list[Math.floor(Math.random() *names_list.length)];
+
+			return [random_name, (random_index+1).toString()];
+		}
+
+		// My Functions
+		function fetch_final_name(){
+			var name_dict_keys = Object.keys(names_dict)
+			var number_dict_keys = Object.keys(numbers_dict)
+			var number_list = [];
+			for (var i = 1; i <= names_list.length; i++) {
+				number_list.push(i.toString());
+			}
+
+			var name_difference = names_list.filter(x => !name_dict_keys.includes(x));
+			var number_difference = number_list.filter(x => !number_dict_keys.includes(x));
+
+			var name_assigned = name_difference[Math.floor(Math.random() *name_difference.length)];
+			var number_assigned = number_difference[Math.floor(Math.random() *number_difference.length)];
+
+			names_dict[name_assigned] = number_assigned
+			numbers_dict[number_assigned] = name_assigned
+			console.log(names_dict)
+			console.log(numbers_dict)
+			return [name_assigned, number_assigned]
+		}
+
+		function start_btn_click(){
+			var len_name_dict = Object.keys(names_dict).length
+			var len_name_list = names_list.length
+			if (len_name_dict == len_name_list){
+				alert('All Names have been Assigned...!!!\nCheck Console Log for Results...!!!')
+				console.log(names_dict)
+				console.log(numbers_dict)
+				return
+			}
+			ms = 0;
+			document.getElementById("start_btn").innerHTML = 'Please Wait...';
+			started = true;
+			console.log('Starting Displaying...')
+			start_displaying();
+			console.log('Started Displaying...')
+			console.log('Calling Stop() after 2 Seconds...')
+			setTimeout(stop_btn_click, 2000);
+			document.getElementById("start_btn").disabled = true;
+		}
+		function start_displaying(){
+			if (started){
+				var values = ''
+				var random_name = ''
+				var random_number = ''
+				values = fetch_random_name()
+				random_name = values[0]
+				random_number = values[1];
+				document.getElementById("i_txt").innerHTML = random_name;
+				document.getElementById("i_val").innerHTML = random_number;
+				ms = ms + 2;
+				// console.log('Calling after %s seconds', ms)
+				setTimeout(start_displaying, ms);
+			}
+			else{
+				stopped_properly = true;
+			}
+		}
+		function check_for_proper_termination(){
+			if(stopped_properly){
+				return
+			}
+			else{
+				setTimeout(check_for_proper_termination, 100)
+			}
+		}
+		function stop_btn_click(){
+			console.log('Called Stop()')
+			console.log('Waiting For Proper Termination...')
+			var values = ''
+			var final_name = ''
+			var final_number = ''
+			values = fetch_final_name();
+			final_name = values[0]
+			final_number = values[1]
+			started = false;
+			check_for_proper_termination()
+			console.log('Program Stopped Properly...')
+			console.log('Stopped');
+			document.getElementById("i_txt").innerHTML = "Choosen - " + final_name;
+			document.getElementById("i_val").innerHTML = "Choosen - " + final_number;
+			console.log('Done...');
+			document.getElementById("start_btn").innerHTML = 'START';
+			document.getElementById("start_btn").disabled = false;
+		}
+	</script>
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<div>
+			<div class="heading_santa">Secret Santa</div>
+		</div>
+	</nav>
+	<div class="row">
+		<div class="col-lg-6 text" style="background-color:lavender;" id="i_txt">&lt;USER&gt;</div>
+		<div class="col-lg-6 value" style="background-color:lavenderblush;" id="i_val">&lt;NUMBER&gt;</div>
+	</div>
+	<div class="row text-center">
+		<br>
+		<div class="col-lg-offset-5 col-lg-2" id="i_val">
+			<button class="btn btn-primary btn_prop" id="start_btn" style="width: 100%;" onclick="start_btn_click()">
+				START
+			</button>
+		</div>
+
+	</div>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.min.js"></script>
+
+</body>
+</html>
+
