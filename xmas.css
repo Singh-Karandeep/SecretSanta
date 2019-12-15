@@ -4,14 +4,14 @@ body{
 }
 
 .heading_santa{
-  position: absolute;
-  color: white;
-  text-align: center;
-  font-size: 50px;
-  padding-top: 10px;
-  padding-bottom: 20px; 
-  margin-left: 35%;
-  z-index: 1;
+	position: absolute;
+	color: white;
+	text-align: center;
+	font-size: 50px;
+	padding-top: 10px;
+	padding-bottom: 20px; 
+	margin-left: 32.5%;
+	z-index: 1;
 }
 .prop{
 	position: absolute;
@@ -20,10 +20,12 @@ body{
 	background: black;
 	border-radius: 77px;
 	color: #ffffff;
+	opacity: 75%;
 	display: inline-block;
 	font-weight: bold;
 	text-align: center;
-	line-height: 150px;
+	line-height: 160px;
+	padding-top: 2.5%;
 	z-index: 2;
 }
 
@@ -35,12 +37,6 @@ body{
 .value{
 	margin-right: 5%;
 	width: 90%; 
-}
-
-.btn_prop{
-	position: absolute;
-	margin-top: 220%;
-	z-index: 3;
 }
 
 .xmas {
@@ -97,9 +93,9 @@ body{
 	-webkit-transition: 500ms linear;
 	   -moz-transition: 500ms linear;
 	     -o-transition: 500ms linear;
-					transition: 500ms linear;
-	margin-top: 240%;
-	margin-left: -35%;
+	     transition: 500ms linear;
+	margin-left: 43.5%;
+	margin-top: 38%;
 	z-index: 3;
 }
 
