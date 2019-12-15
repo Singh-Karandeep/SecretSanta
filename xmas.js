@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
   initLetItSnow();
 });
 
@@ -54,7 +53,7 @@ $(document).ready(function(){
 				return
 			}
 			ms = 0;
-			document.getElementById("start_btn").innerHTML = 'Please Wait...';
+			document.getElementById("start_btn").innerHTML = 'Please Wait';
 			started = true;
 			console.log('Starting Displaying...')
 			start_displaying();
