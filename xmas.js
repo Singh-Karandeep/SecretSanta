@@ -4,30 +4,67 @@ $(document).ready(function(){
 
 
 // ---------------------------------------------------------------------------------------------
+
+/* Change Accoridngly... */
+// total_surprise_gifts must be less than length of names_list
+// < ---------------------------- > 
+var names_list = ['Karan', 'Chanveer', 'Fabin', 'Saurabh', 'Indu', 'Anju', 'Khaja', 'Amruth', 'Tejas',
+					'Ambedkar', 'Safwan', 'Rakesh', 'Anandamay', 'Hilam', 'Akhila', 'Anubha', 'Parul', 'Ashish', 'Nagaraj',
+					'Manasvini', 'Sanjith', 'Siva', 'Ashutosh', 'Shilpa', 'Piyush']
+var total_surprise_gifts = 4
+// < ---------------------------- > 
+
+var surprise_list = []
+for(var i=1; i <= total_surprise_gifts; i++){
+	surprise_list[i-1] = "S"+i.toString();
+}
+console.log(surprise_list);
+
 var started = false;
 var stopped_properly = false;
 var ms;
-var names_list = ['Karan', 'Chanveer', 'Fabin', 'Saurabh', 'Indu', 'Anju']/*, 'Khaja', 'Amruth', 'Tejas',
-					'Ambedkar', 'Safwan', 'Rakesh', 'Anandamay', 'Hilam', 'Akhila', 'Anubha', 'Parul', 'Ashish', 'Nagaraj',
-					'Manasvini', 'Sanjith', 'Siva', 'Ashutosh', 'Shilpa', 'Piyush']*/
 var names_dict = {}
 var numbers_dict = {}
 var bumper_prize_executing = false;
 var bumper_dict = {}
 var bumper_numbers_dict = {}
+var audio_started = false;
+
 $('#result_modal').modal({ show: false})
 
 // Utility Functions
+function play_audio_1(){
+	document.getElementById("my_audio").play();
+	console.log("Audio 1 Played...!!!");
+}
+function stop_audio_1(){
+	document.getElementById("my_audio").pause();
+	document.getElementById("my_audio").src = "";
+	console.log("Audio 1 Stopped...!!!");
+}
+
+function play_audio_2(){
+	document.getElementById("my_audio_2").play();
+	console.log("Audio 2 Played...!!!");
+}
+function stop_audio_2(){
+	document.getElementById("my_audio_2").pause();
+	document.getElementById("my_audio_2").src = "";
+	console.log("Audio 2 Stopped...!!!");
+}
+
 function start_bumper_draw(){
+	stop_audio_1();
+	play_audio_2();
 	bumper_prize_executing = true;
-	document.getElementById('start_btn').innerHTML = 'Bumper Prize'
+	document.getElementById('start_btn').innerHTML = 'Surprise Gift'
 	names_dict = {}
 	numbers_dict = {}
 	document.getElementById("i_txt").innerHTML = '<span class="glyphicon glyphicon-user"></span>'
 	document.getElementById("i_val").innerHTML = '<span class="glyphicon glyphicon-gift"></span>'
 }
 function draw_bumper_prize(){
-	if (Object.keys(bumper_dict).length == 3){
+	if (Object.keys(bumper_dict).length == total_surprise_gifts){
 		var final_result_to_display = ''
 		for (var name in bumper_dict){
  			 final_result_to_display += bumper_dict[name] + " -- " + name + "<br>"
@@ -54,7 +91,7 @@ function draw_bumper_prize(){
 function fetch_random_name() {
 	var random_index = ''
 	var random_name = ''
-	var random_bumper_list = ["B1", "B2", "B3"]
+	var random_bumper_list = surprise_list
 	random_name = names_list[Math.floor(Math.random() *names_list.length)];
 	if(bumper_prize_executing){
 		random_bumper = random_bumper_list[Math.floor(Math.random() *random_bumper_list.length)]
@@ -70,7 +107,7 @@ function fetch_random_name() {
 function fetch_final_bumper_name(){
 	var bumper_dict_keys = Object.keys(bumper_dict)
 	var bumper_number_dict_keys = Object.keys(bumper_numbers_dict)
-	var number_list = ["B1", "B2", "B3"];
+	var number_list = surprise_list;
 
 	var bumper_name_difference = names_list.filter(x => !bumper_dict_keys.includes(x));
 	var bumper_number_difference = number_list.filter(x => !bumper_number_dict_keys.includes(x));
@@ -106,7 +143,41 @@ function fetch_final_name(){
 	return [name_assigned, number_assigned]
 }
 
+function reveal(){
+	if(!audio_started){
+		play_audio_1();
+		audio_started = true;
+	}
+	console.log("Inside Reveal...");
+	var name_on_display = document.getElementById("i_txt").innerHTML;
+	var tmp_dict;
+	if(bumper_prize_executing){
+		tmp_dict = bumper_dict
+	}
+	else{
+		tmp_dict = names_dict
+	}
+	console.log("---->")
+	console.log(tmp_dict)
+	if(name_on_display in tmp_dict){
+		console.log("Name on Display : %s", name_on_display)
+		document.getElementById("i_val").innerHTML = tmp_dict[name_on_display]
+		console.log("Number on Display : %s", tmp_dict[name_on_display])
+		if(bumper_prize_executing){
+			document.getElementById("start_btn").innerHTML = "Surprise Gift"
+		}
+		else{
+			document.getElementById("start_btn").innerHTML = "Pick a Santee"	
+		}
+		document.getElementById("start_btn").disabled = false
+	}
+}
+
 function start_btn_click(){
+	if(!audio_started){
+		play_audio_1();
+		audio_started = true;
+	}
 	if(bumper_prize_executing){
 		draw_bumper_prize();
 		return
@@ -179,15 +250,14 @@ function stop_btn_click(){
 	console.log('Program Stopped Properly...')
 	console.log('Stopped');
 	document.getElementById("i_txt").innerHTML = final_name;
-	document.getElementById("i_val").innerHTML = final_number;
+	document.getElementById("i_val").innerHTML = '<img src="santa.png" class="santa_img">';
 	console.log('Done...');
-	if (!bumper_prize_executing){
-		document.getElementById("start_btn").innerHTML = 'Assign Gift';
+	if (bumper_prize_executing){
+		document.getElementById("start_btn").innerHTML = 'Surprise Gift';
 	}
 	else{
-		document.getElementById("start_btn").innerHTML = 'Bumper Prize';	
+		document.getElementById("start_btn").innerHTML = 'Pick a Santee';	
 	}
-	document.getElementById("start_btn").disabled = false;
 }
 // ---------------------------------------------------------------------------------------------
 

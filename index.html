@@ -13,6 +13,8 @@
 	<script src="xmas.js"></script>
 </head>
 <body>
+	<audio control src="Ahrix_Nova_NCS.mp3" id="my_audio" loop="loop"></audio>
+	<audio control src="Electromania_Energy_NCS.mp3" id="my_audio_2" loop="loop"></audio>
 
 	<!-- ----------------------------------------- MODAL --------------------------------------------- -->
 
@@ -30,7 +32,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="start_bumper_draw()">Bumper Prize</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="start_bumper_draw()">Surprise Gift</button>
 				</div>
 			</div>
 		</div>
@@ -38,16 +40,27 @@
 	<!-- -------------------------------------------------------------------------------------------- -->
 	<div class="xmas">
 		
-		<div class="heading_santa">Let's Play Secret Santa...</div>
+		<div class="heading_santa">...Let's Play Secret Santa...</div>
 		
 		<div class="row">
-			<div class="col-lg-6"><span class="prop text"  id="i_txt"><span class="glyphicon glyphicon-user"></span></span></div>
-			<div class="col-lg-6"><span class="prop value" id="i_val"><span class="glyphicon glyphicon-gift"></span></span></div>
+			<div class="col-lg-6">
+				<span class="prop text"  id="i_txt">
+					<span class="glyphicon glyphicon-user"></span>
+				</span>
+			</div>
+
+			<div class="col-lg-6">
+				<span class="prop value">
+					<button class="icon-button" onclick="reveal()" id="i_val">					
+						<span class="glyphicon glyphicon-gift"></span>
+					</button>
+				</span>
+			</div>
 		</div>
 		
 		<div class="xmas-message"></div>
 		<div class="center-block">
-			<button class="button center-block" id="start_btn" onclick="start_btn_click()">Assign Gift</button>
+			<button class="button center-block" id="start_btn" onclick="start_btn_click()">Pick a Santee</button>
 		</div>
 		<canvas id="xmas"></canvas>
 
